@@ -1,11 +1,13 @@
 import React from "react";
 import clsx from "clsx";
 import styles from "./styles.module.css";
+import Link from "@docusaurus/Link";
 
 type FeatureItem = {
   title: string;
   Svg: React.ComponentType<React.ComponentProps<"svg">> | undefined;
   description: JSX.Element;
+  link: string;
 };
 
 const FeatureList: FeatureItem[] = [
@@ -13,6 +15,7 @@ const FeatureList: FeatureItem[] = [
     title: "Concepts",
     Svg: undefined,
     description: <>On Ocean architecture, network deployments, and more.</>,
+    link: "/docs/category/core-concepts",
   },
   {
     title: "Tutorials",
@@ -20,15 +23,17 @@ const FeatureList: FeatureItem[] = [
     description: (
       <>On launching a marketplace, running compute-to-data, and more.</>
     ),
+    link: "/docs/category/tutorial",
   },
   {
     title: "API references",
     Svg: undefined,
     description: <>Interfaces for libraries and services.</>,
+    link: "/docs/api-refrences/introduction",
   },
 ];
 
-function Feature({ title, Svg, description }: FeatureItem) {
+function Feature({ title, Svg, description, link }: FeatureItem) {
   return (
     <div className={clsx("col col--4")} onClick={() => {}}>
       {Svg ? (
@@ -39,6 +44,7 @@ function Feature({ title, Svg, description }: FeatureItem) {
       <div className={clsx("text--center padding-horiz--md")}>
         <h3 className="purple-text">{title}</h3>
         <p>{description}</p>
+        <Link to={link}>View</Link>
       </div>
     </div>
   );
