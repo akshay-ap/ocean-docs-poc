@@ -10,7 +10,6 @@ The document is intended for a production setup. The tutorial provides the steps
 
 ## Setup 1: Allow registry access only to the C2D environment
 
-
 To implement this use case, 1 domain will be required:
 
 - **example.com**: This domain will allow only image pull operations
@@ -48,7 +47,7 @@ docker run \
 Copy the below yml content to `docker-compose.yml` file and replace content in `<>`.
 
 ```yml
-version: '3'
+version: "3"
 
 services:
   registry:
@@ -66,17 +65,17 @@ services:
       - <path>/data:/var/lib/registry
       - <path>/auth:/auth
   nginx:
-        image: nginx:latest
-        container_name: nginx
-        volumes:
-            -  <path>/nginx/logs:/app/logs/
-            -  nginx.conf:/etc/nginx/nginx.conf
-            -  /etc/letsencrypt/:/etc/letsencrypt/
-        ports:
-            - 80:80
-            - 443:443
-        depends_on:
-            - registry
+    image: nginx:latest
+    container_name: nginx
+    volumes:
+      - <path>/nginx/logs:/app/logs/
+      - nginx.conf:/etc/nginx/nginx.conf
+      - /etc/letsencrypt/:/etc/letsencrypt/
+    ports:
+      - 80:80
+      - 443:443
+    depends_on:
+      - registry
 ```
 
 ### 1.5 Nginx configuration
@@ -88,7 +87,7 @@ events {}
 http {
   access_log /app/logs/access.log;
   error_log /app/logs/error.log;
-	
+
 	server {
         client_max_body_size 4096M;
     		listen 80 default_server;
@@ -173,7 +172,7 @@ Copy the below yml content to `docker-compose.yml` file and replace content in `
 Here, we will be creating two services of the docker registry so that anyone can `pull` the images from the registry but, only authenticated users can `push` the images.
 
 ```yml
-version: '3'
+version: "3"
 
 services:
   registry:
@@ -191,30 +190,30 @@ services:
       - <path>/data:/var/lib/registry
       - <path>/auth:/auth
   registry-read-only:
-      restart: always
-      container_name: my-registry-read-only
-      image: registry:2
-      read_only: true
-      ports:
-        - 5051:5000
-      environment:
-        REGISTRY_HTTP_SECRET: ${REGISTRY_HTTP_SECRET}
-      volumes:
-        - <path>/docker-registry/data:/var/lib/registry:ro
-      depends_on:
-        - registry
+    restart: always
+    container_name: my-registry-read-only
+    image: registry:2
+    read_only: true
+    ports:
+      - 5051:5000
+    environment:
+      REGISTRY_HTTP_SECRET: ${REGISTRY_HTTP_SECRET}
+    volumes:
+      - <path>/docker-registry/data:/var/lib/registry:ro
+    depends_on:
+      - registry
   nginx:
-        image: nginx:latest
-        container_name: nginx
-        volumes:
-            -  <path>/nginx/logs:/app/logs/
-            -  nginx.conf:/etc/nginx/nginx.conf
-            -  /etc/letsencrypt/:/etc/letsencrypt/
-        ports:
-            - 80:80
-            - 443:443
-        depends_on:
-            - registry-read-only
+    image: nginx:latest
+    container_name: nginx
+    volumes:
+      - <path>/nginx/logs:/app/logs/
+      - nginx.conf:/etc/nginx/nginx.conf
+      - /etc/letsencrypt/:/etc/letsencrypt/
+    ports:
+      - 80:80
+      - 443:443
+    depends_on:
+      - registry-read-only
 ```
 
 ### 2.5 Nginx configuration
@@ -226,7 +225,7 @@ events {}
 http {
   access_log /app/logs/access.log;
   error_log /app/logs/error.log;
-	
+
 	server {
         client_max_body_size 4096M;
     		listen 80 default_server;
@@ -266,7 +265,7 @@ http {
 ## Start the registry
 
 ```bash
-docker-compose -f docker-compose.yml up 
+docker-compose -f docker-compose.yml up
 ```
 
 ## Working with registry
@@ -309,7 +308,6 @@ docker image pull readonly.example.com/my-algo:latest
 ### Next step
 
 You can publish an algorithm asset with the metadata containing registry URL, image, and tag information to enable users to run C2D jobs.
-
 
 ## Further references
 

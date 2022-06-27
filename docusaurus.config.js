@@ -10,7 +10,7 @@ const config = {
   tagline: "Tools to Build Data Markets, and Manage ERC20 Data Assets",
   url: "https://your-docusaurus-test-site.com",
   baseUrl: "/",
-  onBrokenLinks: "throw",
+  onBrokenLinks: "ignore",
   onBrokenMarkdownLinks: "warn",
   favicon: "img/logo.svg",
 
